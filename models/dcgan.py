@@ -65,7 +65,7 @@ class DCGAN():
         self.training_mode = training
 
         # Following parameter and optimizer set as recommended in paper
-        self.optimizer = Adam(lr=self.learning_rate)
+        self.optimizer = Adam(learning_rate=self.learning_rate)
 
         # Build and compile the critic
         self.critic = Discriminator(args, training)
