@@ -1,5 +1,5 @@
 keras
-git+https://www.github.com/keras-team/keras-contrib.git
+git+https://www.github.com/keras-team/keras-contrib.git 
 matplotlib
 numpy
 scipy
@@ -9,3 +9,5 @@ pandas
 pathlib
 dtaidistance
 fastdtw
+sklearn
+PyWavelets

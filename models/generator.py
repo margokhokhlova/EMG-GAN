@@ -24,21 +24,23 @@
 # Version by:  Rafael Anicet Zanini
 # Github:      https://github.com/larocs/EMG-GAN
 
-from keras.utils import plot_model
-from keras.layers import Input, Dense, Reshape, Flatten, Dropout, Lambda
-from keras.layers import BatchNormalization, Activation, ZeroPadding2D
-from keras.layers import Input, Dense, Flatten, Activation, Dropout, LSTM, RepeatVector, TimeDistributed, ConvLSTM2D, GRU
-from keras.layers import Add, Subtract, Multiply, ReLU, ThresholdedReLU, Concatenate, GlobalAveragePooling1D, GlobalMaxPooling1D, GlobalAvgPool1D
-from keras.layers.wrappers import Bidirectional
-from keras.layers.convolutional import Conv1D, MaxPooling1D, UpSampling1D
-from keras.layers.advanced_activations import LeakyReLU
-from keras.layers.convolutional import UpSampling2D, Conv2D
-from keras.models import Sequential, Model
-import keras.backend as K
 import warnings 
 with warnings.catch_warnings():  
     warnings.filterwarnings("ignore",category=FutureWarning)
     import tensorflow as tf
+
+from tensorflow.keras.utils import plot_model
+from tensorflow.keras.layers import Input, Dense, Reshape, Flatten, Dropout, Lambda
+from tensorflow.keras.layers import BatchNormalization, Activation, ZeroPadding2D
+from tensorflow.keras.layers import Input, Dense, Flatten, Activation, Dropout, LSTM, RepeatVector, TimeDistributed, ConvLSTM2D, GRU
+from tensorflow.keras.layers import Add, Subtract, Multiply, ReLU, ThresholdedReLU, Concatenate, GlobalAveragePooling1D, GlobalMaxPooling1D, GlobalAvgPool1D
+from tensorflow.keras.layers import Bidirectional
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, UpSampling1D
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import UpSampling2D, Conv2D
+from tensorflow.keras.models import Sequential, Model
+import tensorflow.keras.backend as K
+
 
 class Generator():
 
@@ -63,7 +65,7 @@ class Generator():
             z (tensor): sampled latent vector
         """
         input_ = args
-        sliding_window = tf.contrib.signal.frame(
+        sliding_window = tf.signal.frame(
             input_,
             self.sliding_window,
             1,#steps

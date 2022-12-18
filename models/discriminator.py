@@ -12,7 +12,7 @@
 #The above copyright notice and this permission notice shall be included in all
 #copies or substantial portions of the Software.
 #
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ORkeras
 #IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 #FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 #AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -24,27 +24,28 @@
 # Version by:  Rafael Anicet Zanini
 # Github:      https://github.com/larocs/EMG-GAN
 
-import keras
-from keras.utils import plot_model
-from keras.layers import Input, Dense, Reshape, Flatten, Dropout, Lambda
-from keras.layers import BatchNormalization, Activation, ZeroPadding2D
-from keras.layers import Input, Dense, Flatten, Activation, Dropout, LSTM, RepeatVector, TimeDistributed, ConvLSTM2D, GRU
-from keras.layers import Add, Subtract, Multiply, ReLU, ThresholdedReLU, Concatenate, GlobalAveragePooling1D, GlobalMaxPooling1D, GlobalAvgPool1D
-from keras.layers.wrappers import Bidirectional
-from keras.layers.convolutional import Conv1D, MaxPooling1D, UpSampling1D
-from keras.layers.advanced_activations import LeakyReLU
-from keras.layers.convolutional import UpSampling2D, Conv2D
-from keras.models import Sequential, Model
-from keras import backend as K
-from keras.engine import InputSpec, Layer
-from keras import initializers, regularizers, constraints
-import numpy as np
-import pywt
-
 import warnings 
 with warnings.catch_warnings():  
     warnings.filterwarnings("ignore",category=FutureWarning)
     import tensorflow as tf
+
+from tensorflow.keras.utils import plot_model
+from tensorflow.keras.layers import Input, Dense, Reshape, Flatten, Dropout, Lambda
+from tensorflow.keras.layers import BatchNormalization, Activation, ZeroPadding2D
+from tensorflow.keras.layers import Input, Dense, Flatten, Activation, Dropout, LSTM, RepeatVector, TimeDistributed, ConvLSTM2D, GRU
+from tensorflow.keras.layers import Add, Subtract, Multiply, ReLU, ThresholdedReLU, Concatenate, GlobalAveragePooling1D, GlobalMaxPooling1D, GlobalAvgPool1D
+# from keras.layers.wrappers import Bidirectional
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, UpSampling1D
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import UpSampling2D, Conv2D
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras import backend as K
+from tensorflow.keras.layers import InputSpec, Layer
+from tensorflow.keras import initializers, regularizers, constraints
+import numpy as np
+import pywt
+
+
 
 # From a PR that is not pulled into Keras
 # https://github.com/fchollet/keras/pull/3677
@@ -210,12 +211,12 @@ class Discriminator():
             lpf = low_pass_filter
             hpf = high_pass_filter
             a_n = Conv1D(
-                kernel_initializer=keras.initializers.Constant(lpf.reshape((-1, 1))),
+                kernel_initializer=tf.keras.initializers.Constant(lpf.reshape((-1, 1))),
                 name="low_pass_{}".format(i),
                 **wv_kwargs
             )(last_approximant)
             d_n = Conv1D(
-                kernel_initializer=keras.initializers.Constant(hpf.reshape((-1, 1))),
+                kernel_initializer=tf.keras.initializers.Constant(hpf.reshape((-1, 1))),
                 name="high_pass_{}".format(i),
                 **wv_kwargs,
             )(last_approximant)
@@ -237,7 +238,7 @@ class Discriminator():
         """
         input_ = args
         abs_envelope = K.abs(input_)
-        envelope = tf.contrib.signal.frame(
+        envelope = tf.signal.frame(
             input_,
             self.moving_avg_window,
             1,#steps
@@ -275,7 +276,7 @@ class Discriminator():
         cnn_4 = Flatten()(cnn_4)
         
         #CNN on FFT of raw signal
-        fft = Lambda(tf.spectral.rfft)(flat)
+        fft = Lambda(tf.signal.rfft)(flat)
         fft_abs = Lambda(K.abs)(fft)
         fft_abs = Reshape((-1,1), name='fft_abs')(fft_abs)
         fft_cnn_1 = Conv1D(16, kernel_size=3, strides=2, padding="same", name='fft_conv_1')(fft_abs)
@@ -298,7 +299,7 @@ class Discriminator():
         #CNN on FFT of envelope
         envelope_window = Lambda(self.envelopes, output_shape=self.seq_shape, name='envelope')(input_)
         envelope_window = Flatten()(envelope_window)
-        envelope_fft = Lambda(tf.spectral.rfft)(envelope_window)
+        envelope_fft = Lambda(tf.signal.rfft)(envelope_window)
         envelope_fft_abs = Lambda(K.abs)(envelope_fft)
         envelope_fft_abs = Reshape((-1,1))(envelope_fft_abs)
         envelope_cnn_1 = Conv1D(16, kernel_size=3, strides=2, padding="same", name='fft_env_conv_1')(envelope_fft_abs)

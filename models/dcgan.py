@@ -27,10 +27,10 @@
 
 from __future__ import print_function, division
 
-from keras.optimizers import RMSprop, Adam
-from keras import Model, Sequential
-from keras.layers import Input
-import keras.backend as K
+from tensorflow.keras.optimizers import RMSprop, Adam
+from tensorflow.keras import Model, Sequential
+from tensorflow.keras.layers import Input
+import tensorflow.keras.backend as K
 import matplotlib.pyplot as plt
 import sys
 import datetime

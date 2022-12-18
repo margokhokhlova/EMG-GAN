@@ -3,6 +3,8 @@ EMG-GAN is a custom implementation of a Deep Convolutional Generative Adversaria
 
 <b>See also:</b> [Keras-GAN](https://github.com/eriklindernoren/Keras-GAN/)
 
+Warning! This rpeo is the fork from the initial one, and it was updated for the current tf version (dec 2022). It is possible that the updates affected the initial repo functionality. 
+
 ## Table of Contents
   * [Installation](#installation)
   * [Datasets](#datasets)
@@ -16,7 +18,10 @@ This set-up was tested under Windows 10, Ubuntu and Raspbian.
 	$ git clone https://github.com/larocs/EMG-GAN
   $ cd EMG-GAN/
   $ pip install -r requirements.txt
-	
+
+```
+If there is an error for keras contib ssl certificate, try: ```
+export GIT_SSL_NO_VERIFY=1
 ```
 	
 # Usage
