@@ -19,7 +19,6 @@ class DataLoader():
     def load_training_data(self):
     
         data = self.load_timeseries(self.file_path, self.features)
-    
         #Normalize data before hand
         values = data.values
         
@@ -38,8 +37,7 @@ class DataLoader():
     
     def load_timeseries(self, filename, series):
         #Load time series dataset
-        loaded_series = pd.read_csv(filename, sep=',', header=0, index_col=0, squeeze=True)
-    
+        loaded_series = pd.read_csv(filename,  sep=',', header=0) #
         #Applying filter on the selected series
         selected_series = loaded_series.filter(items=series)
     
